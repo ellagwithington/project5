@@ -27,8 +27,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
-public class mainBoard extends Application {
-
+public class MainBoardScene extends Application {
+//need to extend scene basic
+//possibly make this look like store
+//have a constructor so that scene manager can call this 
      
     private int row = 5;
     private int column = 6;
@@ -72,7 +74,7 @@ public class mainBoard extends Application {
         gridPane.add(columnNum, 6, 5);
         gridPane.add(columnField, 6, 6);
         gridPane.add(button, 6, 7);
-        button.setOnAction(e -> send());
+        //button.setOnAction(e -> send());
         gamePiece.setFill(Color.RED);
         for(int r = 1;r < row +1; r++){
             for(int c = 0; c < column; c++){
@@ -114,37 +116,37 @@ public class mainBoard extends Application {
              
             gridPane.add(stack, column, 5); 
     }
-     public void send(){
-        try {
-            Socket connection = SceneManager.getSocket(); // Server socket
-			//Socket connection = SceneManager.getSocket(); // Server socket
-	    	PrintWriter outgoing;   // Stream for sending data.
-			outgoing = new PrintWriter( connection.getOutputStream() );
-			
-			String move = columnField.getText();
-			outgoing.println(move);
-			outgoing.flush();  // Make sure the data is actually sent!
-            System.out.println("Sent move"); // For debugging
-//            outgoing.close();
-
-            BufferedReader incoming = new BufferedReader( 
-                    new InputStreamReader(connection.getInputStream()) );
-            System.out.println("Waiting for result...");
-            String reply = incoming.readLine();
-//            incoming.close();
-            if (reply.equals("SUCESS")) {
-            	errorMessage.setText("");
-            	dropPiece(Integer.parseInt(move));
-            }
-            else if (reply.equals("FAIL")) {
-            	errorMessage.setText("Please choose another move");
-            }
-            else
-            	errorMessage.setText(reply);
-		}
-        catch (Exception e) {
-            System.out.println("Error:  " + e);
-        }
-	}
+//     public void send(){
+//        try {
+//            Socket connection = SceneManager.getSocket(); // Server socket
+//			//Socket connection = SceneManager.getSocket(); // Server socket
+//	    	PrintWriter outgoing;   // Stream for sending data.
+//			outgoing = new PrintWriter( connection.getOutputStream() );
+//			
+//			String move = columnField.getText();
+//			outgoing.println(move);
+//			outgoing.flush();  // Make sure the data is actually sent!
+//            System.out.println("Sent move"); // For debugging
+////            outgoing.close();
+//
+//            BufferedReader incoming = new BufferedReader( 
+//                    new InputStreamReader(connection.getInputStream()) );
+//            System.out.println("Waiting for result...");
+//            String reply = incoming.readLine();
+////            incoming.close();
+//            if (reply.equals("SUCESS")) {
+//            	errorMessage.setText("");
+//            	dropPiece(Integer.parseInt(move));
+//            }
+//            else if (reply.equals("FAIL")) {
+//            	errorMessage.setText("Please choose another move");
+//            }
+//            else
+//            	errorMessage.setText(reply);
+//		}
+//        catch (Exception e) {
+//            System.out.println("Error:  " + e);
+//        }
+//	}
 
 } 
