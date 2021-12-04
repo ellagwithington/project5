@@ -16,15 +16,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
- 
-
+import javafx.scene.text.Font;
+import javafx.scene.control.*;
 public class mainBoard extends Application {
 
      
     private int row = 5;
     private int column = 6;
-     
+    private final int FONT_SIZE = 20;
      
     public static void main(String[] args) {
         launch(args);
@@ -53,13 +52,16 @@ public class mainBoard extends Application {
      
 
     private void createBoard(final GridPane gridpane){
-        final Circle diskPreview = new Circle(40);
-        diskPreview.setFill(Color.RED);
-        for(int r = 0;r < row; r++){
+        final Circle gamePiece = new Circle(40);
+        gamePiece.setFill(Color.RED);
+        for(int r = 1;r < row +1; r++){
             for(int c = 0; c < column; c++){
                  //need a t/f array to check where all of the circles are
 //only need a column to drop
 //number the columns
+            Label userLabel2 = new Label(String.valueOf(c));
+	        userLabel2.setFont(new Font(FONT_SIZE));
+	        gridpane.add(userLabel2, c, 0);
             Rectangle rect = new Rectangle(100,100);
             Circle circ = new Circle(47);
             circ.centerXProperty().set(50);
@@ -71,7 +73,7 @@ public class mainBoard extends Application {
           
             StackPane stack = new StackPane();
              
-            stack.getChildren().addAll(diskPreview, cell);
+            stack.getChildren().addAll(gamePiece, cell);
              
             gridpane.add(stack, c, r); 
              
