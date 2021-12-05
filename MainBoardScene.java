@@ -39,58 +39,73 @@ public class MainBoardScene extends SceneBasic {
     private TextField columnField = new TextField();
     private Button button = new Button("Send");
     private Label errorMessage = new Label();
-    final StackPane stack = new StackPane();
-    final GridPane gridPane = new GridPane();
-   
+    private StackPane stack = new StackPane();
+    private GridPane gridPane = new GridPane();
+   private String hostName = "127.0.0.1";
+	private int LISTENING_PORT = 32007;
+    private Socket connection;
      
     public MainBoardScene(){
-        super("Connect 4"); 
-        final BorderPane root = new BorderPane();
         
-        Scene scene = new Scene(root, 800, 600, true);
-        scene.setFill(Color.WHITE);
+        super("Connect 4");
+        GridPane gridPane = new GridPane();
+        gridPane.setMinSize(400, 200); 
+       // gridPane.setPadding(new Insets(10, 10, 10, 10)); 
+        gridPane.setVgap(5); 
+        gridPane.setHgap(5);       
+        gridPane.add(columnField, 0, 0);
         
-        gridPane.setAlignment(Pos.CENTER);
-         
-        
-        final Circle gamePiece = new Circle(40);
-       
-        gridPane.add(columnNum, 6, 5);
-        gridPane.add(columnField, 6, 6);
-        gridPane.add(button, 6, 7);
-        //button.setOnAction(e -> send());
-        gamePiece.setFill(Color.RED);
-        for(int r = 1;r < row +1; r++){
-            for(int c = 0; c < column; c++){
-                 //need a t/f array to check where all of the circles are
-//only need a column to drop
-//number the columns
-            Label userLabel2 = new Label(String.valueOf(c));
-	        userLabel2.setFont(new Font(FONT_SIZE));
-            gridPane.add(userLabel2, c, 0);
-            errorMessage.setTextFill(Color.RED);
-            gridPane.add(errorMessage, 5, 6);
-            Rectangle rect = new Rectangle(100,100);
-            Circle circ = new Circle(47);
-            circ.centerXProperty().set(50);
-            circ.centerYProperty().set(50);
-            Shape cell = Path.subtract(rect, circ);
-            cell.setFill(Color.BLUE);
-            cell.setStroke(Color.BLUE);
-            
-          
-           
-             
-            stack.getChildren().addAll(gamePiece, cell);
-             
-            gridPane.add(stack, c, r); 
-             
-              
-            }
-             
-        }
+        HBox buttonBox = new HBox();
+       buttonBox.getChildren().addAll(button);
+        gridPane.add(buttonBox, 1, 2);
+        errorMessage.setTextFill(Color.RED);
+        gridPane.add(errorMessage, 1, 3);
+        gridPane.setAlignment(Pos.TOP_CENTER);
+        root.getChildren().addAll(gridPane);
+//        final BorderPane root = new BorderPane();
+//        
+//        Scene scene = new Scene(root, 800, 600, true);
+//        scene.setFill(Color.WHITE);
+//        
+//        gridPane.setAlignment(Pos.CENTER);
+//         
+//        
+//        final Circle gamePiece = new Circle(40);
+//       
+//        gridPane.add(columnNum, 6, 5);
+//        gridPane.add(columnField, 6, 6);
+//        gridPane.add(button, 6, 7);
+//        //button.setOnAction(e -> send());
+//        gamePiece.setFill(Color.RED);
+//        for(int r = 1;r < row +1; r++){
+//            for(int c = 0; c < column; c++){
+//                 //need a t/f array to check where all of the circles are
+////only need a column to drop
+////number the columns
+//            Label userLabel2 = new Label(String.valueOf(c));
+//	        userLabel2.setFont(new Font(FONT_SIZE));
+//            gridPane.add(userLabel2, c, 0);
+//            errorMessage.setTextFill(Color.RED);
+//           // gridPane.add(errorMessage, 5, 6);
+//            Rectangle rect = new Rectangle(100,100);
+//            Circle circ = new Circle(47);
+//            circ.centerXProperty().set(50);
+//            circ.centerYProperty().set(50);
+//            Shape cell = Path.subtract(rect, circ);
+//            cell.setFill(Color.BLUE);
+//            cell.setStroke(Color.BLUE);
+//            
+//
+//            stack.getChildren().addAll(gamePiece, cell);
+//             
+//            gridPane.add(stack, c, r); 
+//             
+//              
+//            }
+//             
+//        }
        // dropPiece(1);
-        root.setCenter(gridPane);
+        //root.setCenter(gridPane);
        
     }
      
@@ -101,44 +116,54 @@ public class MainBoardScene extends SceneBasic {
     //    
     //}
     
-    private void dropPiece(int column){
-        final Circle gamePiece = new Circle(40);
-        gamePiece.setFill(Color.RED);
-        stack.getChildren().addAll(gamePiece);
-             
-            gridPane.add(stack, column, 5); 
-    }
-     public void send(){
-        try {
-            Socket connection = SceneManager.getSocket(); // Server socket
-			//Socket connection = SceneManager.getSocket(); // Server socket
-	    	PrintWriter outgoing;   // Stream for sending data.
-			outgoing = new PrintWriter( connection.getOutputStream() );
-			
-			String move = columnField.getText();
-			outgoing.println(move);
-			outgoing.flush();  // Make sure the data is actually sent!
-            System.out.println("Sent move"); // For debugging
-//            outgoing.close();
-
-            BufferedReader incoming = new BufferedReader( 
-                    new InputStreamReader(connection.getInputStream()) );
-            System.out.println("Waiting for result...");
-            String reply = incoming.readLine();
-//            incoming.close();
-            if (reply.equals("SUCESS")) {
-            	errorMessage.setText("");
-            	dropPiece(Integer.parseInt(move));
-            }
-            else if (reply.equals("FAIL")) {
-            	errorMessage.setText("Please choose another move");
-            }
-            else
-            	errorMessage.setText(reply);
-		}
-        catch (Exception e) {
-            System.out.println("Error:  " + e);
-        }
-	}
+//    private void dropPiece(int column){
+//        final Circle gamePiece = new Circle(40);
+//        gamePiece.setFill(Color.RED);
+//        stack.getChildren().addAll(gamePiece);
+//             
+//            gridPane.add(stack, column, 5); 
+//    }
+//     public void send(){
+//         try {
+//			if (connection == null) { // If no socket has been created...
+//				connection = new Socket(hostName, LISTENING_PORT);
+//				SceneManager.setSocket(connection); // Client socket
+//			}
+//		}
+//	    catch (Exception e) {
+//	        System.out.println("Error:  " + e);
+//	    }
+//        try {
+//           
+//            Socket connection = SceneManager.getSocket(); // Server socket
+//			//Socket connection = SceneManager.getSocket(); // Server socket
+//	    	PrintWriter outgoing;   // Stream for sending data.
+//			outgoing = new PrintWriter( connection.getOutputStream() );
+//			
+//			String move = columnField.getText();
+//			outgoing.println(move);
+//			outgoing.flush();  // Make sure the data is actually sent!
+//            System.out.println("Sent move"); // For debugging
+////            outgoing.close();
+//
+//            BufferedReader incoming = new BufferedReader( 
+//                    new InputStreamReader(connection.getInputStream()) );
+//            System.out.println("Waiting for result...");
+//            String reply = incoming.readLine();
+////            incoming.close();
+//            if (reply.equals("SUCESS")) {
+//            	errorMessage.setText("");
+//            	dropPiece(Integer.parseInt(move));
+//            }
+//            else if (reply.equals("FAIL")) {
+//            	errorMessage.setText("Please choose another move");
+//            }
+//            else
+//            	errorMessage.setText(reply);
+//		}
+//        catch (Exception e) {
+//            System.out.println("Error:  " + e);
+//        }
+//	}
 
 } 

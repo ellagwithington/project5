@@ -24,11 +24,15 @@ public class StoreThread extends Thread {
             String request = incoming.readLine();
             System.out.println("Request: " + request);
             while (!request.equals("QUIT")) {
-                if(Integer.parseInt(request) > 0 && Integer.parseInt(request) < 6 ){
-                    System.out.println("Sucessful move");
-                    sendMove(outgoing, "SUCESS");
-
-                    }
+                if (request.equals("START")){
+                    System.out.println("why");
+                     SceneManager.setMainBoardScene();
+                }
+                //else if(Integer.parseInt(request) > 0 && Integer.parseInt(request) < 6 ){
+                //    System.out.println("Sucessful move");
+                //    sendMove(outgoing, "SUCESS");
+                //
+                //    }
                 else{
                     System.out.println("Invalid move");
                     sendMove(outgoing, "FAIL");
