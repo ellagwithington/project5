@@ -45,6 +45,8 @@ public class StartScene extends SceneBasic {
     public StartScene() {
         
         super("Connect 4");
+        
+//        scene.setFill(Color.WHITE);
         GridPane gridPane = new GridPane();
         gridPane.setMinSize(400, 200); 
        // gridPane.setPadding(new Insets(10, 10, 10, 10)); 
