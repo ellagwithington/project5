@@ -16,12 +16,24 @@ import java.util.*;
 
 public class Store extends Application {
 	private SceneManager sceneManager;
-	private Socket connection;
+		private Socket connection;
+//	private String hostName = "localhost";
+	private String hostName = "127.0.0.1";
+	private int LISTENING_PORT = 32007;
 
     public void start(Stage stage) {
+		try {
+			if (connection == null) { // If no socket has been created...
+				connection = new Socket(hostName, LISTENING_PORT);
+				SceneManager.setSocket(connection); // Client socket
+			}
+		}
+	    catch (Exception e) {
+	        System.out.println("Error:  " + e);
+	    }
     	sceneManager = new SceneManager();
     	sceneManager.setStage(stage);
-		SceneManager.setmainBoardScene();
+		SceneManager.setMainBoardScene();
         stage.setTitle("Store Application");
         stage.show();
     } // end start();
@@ -35,6 +47,7 @@ public class Store extends Application {
     			connection = new Socket("localhost", 32007);
 	    	PrintWriter outgoing;   // Stream for sending data.
 			outgoing = new PrintWriter( connection.getOutputStream() );
+		
 			outgoing.println("QUIT");
 			outgoing.flush();
 			connection.close();

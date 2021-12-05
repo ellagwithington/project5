@@ -1,11 +1,4 @@
 
-
-
-
-
-
-
-
 // Author: Chris Fietkiewicz. For Project #3.
 // Description: Manages changes from one scene to another scene.
 import java.net.Socket;
@@ -17,7 +10,7 @@ public class SceneManager {
     private static Socket connection; // Socket connection to server
 	private static Stage stage; // Stage used for all scenes
 	
-	private static SettingsScene settingsScene; 
+
     private static SettingsScene settingsScene; // Allows user to change Socket host and port number
 	private static MainBoardScene mainBoardScene; // Allows user to play the game
 //	

@@ -47,24 +47,12 @@ public class MainBoardScene extends SceneBasic {
         super("Connect 4"); 
         final BorderPane root = new BorderPane();
         
-        
-      
-        
-         
         Scene scene = new Scene(root, 800, 600, true);
         scene.setFill(Color.WHITE);
         
         gridPane.setAlignment(Pos.CENTER);
          
         
-        createBoard(gridPane);
-        dropPiece(1);
-        root.setCenter(gridPane);
-       
-    }
-     
-
-    private void createBoard(final GridPane gridPane){
         final Circle gamePiece = new Circle(40);
        
         gridPane.add(columnNum, 6, 5);
@@ -80,8 +68,8 @@ public class MainBoardScene extends SceneBasic {
             Label userLabel2 = new Label(String.valueOf(c));
 	        userLabel2.setFont(new Font(FONT_SIZE));
             gridPane.add(userLabel2, c, 0);
-             errorMessage.setTextFill(Color.RED);
-             gridPane.add(errorMessage, 5, 6);
+            errorMessage.setTextFill(Color.RED);
+            gridPane.add(errorMessage, 5, 6);
             Rectangle rect = new Rectangle(100,100);
             Circle circ = new Circle(47);
             circ.centerXProperty().set(50);
@@ -101,9 +89,17 @@ public class MainBoardScene extends SceneBasic {
             }
              
         }
-        
-        
+       // dropPiece(1);
+        root.setCenter(gridPane);
+       
     }
+     
+
+    //private void createBoard(final GridPane gridPane){
+    //    
+    //    
+    //    
+    //}
     
     private void dropPiece(int column){
         final Circle gamePiece = new Circle(40);
