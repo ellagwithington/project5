@@ -28,9 +28,9 @@ public class StoreThread extends Thread {
                     
                      SceneManager.setMainBoardScene();
                 }
-                else if(Integer.parseInt(request) > 0 && Integer.parseInt(request) < 6 ){
+                else if(Integer.parseInt(request) > 0 && Integer.parseInt(request) < 7 ){
                     System.out.println("Sucessful move");
-                    sendMove(outgoing, "SUCESS");
+                    sendMove(outgoing, "SUCCESS");
                 
                     }
                 else{

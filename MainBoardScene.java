@@ -41,7 +41,8 @@ public class MainBoardScene extends SceneBasic {
     private Label errorMessage = new Label();
     private StackPane stack = new StackPane();
     private GridPane gridPane = new GridPane();
-    private  boolean[][] piece = new boolean[5][6];; // 2D boolean array
+    private  boolean[][] piece = new boolean[6][7];; // 2D boolean array
+    private boolean turn;
     private Label userLabel2;
    private String hostName = "127.0.0.1";
 	private int LISTENING_PORT = 32007;
@@ -88,6 +89,9 @@ public class MainBoardScene extends SceneBasic {
                  //need a t/f array to check where all of the circles are
 //only need a column to drop
 //number the columns
+            Label userLabel2 = new Label(String.valueOf(c+1));
+	        userLabel2.setFont(new Font(FONT_SIZE));
+            gridPane.add(userLabel2, c, 7);
             Rectangle rect = new Rectangle(100,100);
             Circle circ = new Circle(47);
             circ.centerXProperty().set(50);
@@ -131,7 +135,15 @@ public class MainBoardScene extends SceneBasic {
         }
             
     }
+    public void myTurn(){
+      //method to ask server if its my turn yet
+      //maybe literally take the button away or remove its functionality if its not my turn
+      // set server response to turn boolean
+    }
      public void send(){
+      
+      //TO DO:
+      //clean this up and make the buffered reader and print writer part of params
          try {
 			if (connection == null) { // If no socket has been created...
 				connection = new Socket(hostName, LISTENING_PORT);
@@ -160,7 +172,7 @@ public class MainBoardScene extends SceneBasic {
             String reply = incoming.readLine();
 //            incoming.close();
 System.out.println(reply);
-            if (reply.equals("SUCESS")) {
+            if (reply.equals("SUCCESS")) {
             	errorMessage.setText("");
             	dropPiece(Integer.parseInt(move));
             }
