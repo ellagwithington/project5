@@ -24,7 +24,7 @@ public abstract class SceneBasic {
         root.getChildren().addAll(message);
         root.setAlignment(Pos.TOP_CENTER);
         //scene = new Scene(root, 450, 300);
-		 scene = new Scene(root, 800, 600);
+		 scene = new Scene(root, 900, 700);
        
 	}
 	
