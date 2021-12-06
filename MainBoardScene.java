@@ -125,6 +125,7 @@ public class MainBoardScene extends SceneBasic {
         while(r < 5){
         if (!piece[r][column]){
          gridPane.add(gamePiece, column -1, 4-r);
+         gridPane.getChildren().remove(button);
          piece[r][column] = true;
          r = 5;
          }
@@ -133,8 +134,26 @@ public class MainBoardScene extends SceneBasic {
          }
          
         }
-            
     }
+            
+     private void opponentTurn(int column){
+        final Circle gamePiece = new Circle(40);
+        gamePiece.setFill(Color.YELLOW);
+        int r = 0;
+        while(r < 5){
+        if (!piece[r][column]){
+         gridPane.add(gamePiece, column -1, 4-r);
+         gridPane.add(button, 6, 7);
+         piece[r][column] = true;
+         r = 5;
+         }
+         else{
+          r++;  
+         }
+         
+        } 
+      }
+    
     public void myTurn(){
       //method to ask server if its my turn yet
       //maybe literally take the button away or remove its functionality if its not my turn
@@ -170,11 +189,12 @@ public class MainBoardScene extends SceneBasic {
                     new InputStreamReader(connection.getInputStream()) );
             System.out.println("Waiting for result...");
             String reply = incoming.readLine();
-//            incoming.close();
+
 System.out.println(reply);
             if (reply.equals("SUCCESS")) {
             	errorMessage.setText("");
             	dropPiece(Integer.parseInt(move));
+              opponentTurn(1);
             }
             else if (reply.equals("FAIL")) {
             	errorMessage.setText("Please choose another move");
