@@ -41,7 +41,7 @@ public class MainBoardScene extends SceneBasic {
     private Label errorMessage = new Label();
     private StackPane stack = new StackPane();
     private GridPane gridPane = new GridPane();
-    
+    private  boolean[][] piece = new boolean[5][6];; // 2D boolean array
     private Label userLabel2;
    private String hostName = "127.0.0.1";
 	private int LISTENING_PORT = 32007;
@@ -61,7 +61,7 @@ public class MainBoardScene extends SceneBasic {
         buttonBox.getChildren().addAll(button);
         gridPane.add(buttonBox, 1, 2);
         errorMessage.setTextFill(Color.RED);
-        gridPane.add(errorMessage, 1, 3);
+        gridPane.add(errorMessage, 1, 7);
         gridPane.setAlignment(Pos.TOP_CENTER);
         root.getChildren().addAll(gridPane);
         final BorderPane root = new BorderPane();
@@ -111,24 +111,25 @@ public class MainBoardScene extends SceneBasic {
            // dropPiece(1);  
             }
              
-        
-        
-      //  root.setCenter(gridPane);
-       
-    
-     
-
-   
+      
     
     private void dropPiece(int column){
        //StackPane stack = new StackPane();
         final Circle gamePiece = new Circle(40);
         gamePiece.setFill(Color.RED);
-        System.out.println("test");
-        //stack.getChildren().addAll(gamePiece);
-        // g.setStroke(Color.BLACK);
-            // g.fillOval( 40, 40, 100, 100 );
-            gridPane.add(gamePiece, column, 3); 
+        int r = 0;
+        while(r < 5){
+        if (!piece[r][column]){
+         gridPane.add(gamePiece, column -1, 4-r);
+         piece[r][column] = true;
+         r = 5;
+         }
+         else{
+          r++;  
+         }
+         
+        }
+            
     }
      public void send(){
          try {
