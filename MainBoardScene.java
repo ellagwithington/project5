@@ -96,7 +96,7 @@ public class MainBoardScene extends SceneBasic {
 
             StackPane stack = new StackPane();
 
-            stack.getChildren().addAll(diskPreview, cell);
+            stack.getChildren().addAll(cell);
 
             gridPane.add(stack, c, r); 
 
@@ -104,11 +104,11 @@ public class MainBoardScene extends SceneBasic {
             }
 
         }
-              
+            dropPiece(1);  
             }
              
         
-       // dropPiece(1);
+        
       //  root.setCenter(gridPane);
        
     
@@ -119,9 +119,9 @@ public class MainBoardScene extends SceneBasic {
     private void dropPiece(int column){
         final Circle gamePiece = new Circle(40);
         gamePiece.setFill(Color.RED); 
-        stack.getChildren().addAll(gamePiece);
+       // stack.getChildren().addAll(gamePiece);
              
-            gridPane.add(stack, column, 5); 
+            gridPane.add(gamePiece, column, 5); 
     }
      public void send(){
          try {
@@ -151,6 +151,7 @@ public class MainBoardScene extends SceneBasic {
             System.out.println("Waiting for result...");
             String reply = incoming.readLine();
 //            incoming.close();
+System.out.println(reply);
             if (reply.equals("SUCESS")) {
             	errorMessage.setText("");
             	dropPiece(Integer.parseInt(move));

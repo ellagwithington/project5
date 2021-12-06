@@ -1,4 +1,4 @@
-// Author: Chris Fietkiewicz. See description in P4 instructions. 
+// Author: Chris Fietkiewicz, adapted by Ella Withington
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -28,9 +28,7 @@ public abstract class SceneBasic {
        
 	}
 	
-	// Launch chat app
-	
-	
+
 	// Return reference to this scene
 	public Scene getScene() {
         return scene;
