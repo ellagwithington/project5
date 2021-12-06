@@ -17,11 +17,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
-
+import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.control.*;
-
+import javafx.scene.canvas.GraphicsContext;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -41,21 +41,24 @@ public class MainBoardScene extends SceneBasic {
     private Label errorMessage = new Label();
     private StackPane stack = new StackPane();
     private GridPane gridPane = new GridPane();
+    
     private Label userLabel2;
    private String hostName = "127.0.0.1";
 	private int LISTENING_PORT = 32007;
     private Socket connection;
+    private Canvas canvas = new Canvas(800,700);
+    private GraphicsContext g = canvas.getGraphicsContext2D();
      
     public MainBoardScene(){
         
         super("Connect 4");
-        GridPane gridPane = new GridPane();
+        //GridPane gridPane = new GridPane();
         gridPane.setMinSize(400, 200); 
               
         
         
         HBox buttonBox = new HBox();
-       buttonBox.getChildren().addAll(button);
+        buttonBox.getChildren().addAll(button);
         gridPane.add(buttonBox, 1, 2);
         errorMessage.setTextFill(Color.RED);
         gridPane.add(errorMessage, 1, 3);
@@ -94,17 +97,18 @@ public class MainBoardScene extends SceneBasic {
             cell.setStroke(Color.BLUE);
 
 
-            StackPane stack = new StackPane();
+            //StackPane stack = new StackPane();
 
-            stack.getChildren().addAll(cell);
-
-            gridPane.add(stack, c, r); 
-
+           // stack.getChildren().addAll(diskPreview, cell);
+  g.setStroke(Color.RED);
+             g.fillOval( 40, 40, 1, 1 );
+            gridPane.add(cell, c, r); 
+  // dropPiece(3);
 
             }
 
         }
-            dropPiece(1);  
+           // dropPiece(1);  
             }
              
         
@@ -117,11 +121,14 @@ public class MainBoardScene extends SceneBasic {
    
     
     private void dropPiece(int column){
+       //StackPane stack = new StackPane();
         final Circle gamePiece = new Circle(40);
-        gamePiece.setFill(Color.RED); 
-       // stack.getChildren().addAll(gamePiece);
-             
-            gridPane.add(gamePiece, column, 5); 
+        gamePiece.setFill(Color.RED);
+        System.out.println("test");
+        //stack.getChildren().addAll(gamePiece);
+        // g.setStroke(Color.BLACK);
+            // g.fillOval( 40, 40, 100, 100 );
+            gridPane.add(gamePiece, column, 3); 
     }
      public void send(){
          try {
