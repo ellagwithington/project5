@@ -28,9 +28,12 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 public class MainBoardScene extends SceneBasic {
-//need to extend scene basic
-//possibly make this look like store
-//have a constructor so that scene manager can call this 
+
+    
+    
+			//Socket connection = SceneManager.getSocket(); // Server socket
+	    	
+			//outgoing = new PrintWriter( connection.getOutputStream() );
     
     private int row = 5;
     private int column = 6;
@@ -44,12 +47,16 @@ public class MainBoardScene extends SceneBasic {
     private  boolean[][] piece = new boolean[6][7];; // 2D boolean array
     private boolean turn;
     private Label userLabel2;
-   private String hostName = "127.0.0.1";
-	private int LISTENING_PORT = 32007;
-    private Socket connection;
+    private String hostName = "127.0.0.1";
+    private int LISTENING_PORT = 32007;
+   
     private Canvas canvas = new Canvas(800,700);
     private GraphicsContext g = canvas.getGraphicsContext2D();
-     
+    private Color myColor = Color.RED;
+    private Color oppColor = Color.YELLOW;
+    private Socket connection;
+    private PrintWriter outgoing;   // Stream for sending data.
+     private BufferedReader incoming;   // Stream for reading data.
     public MainBoardScene(){
         
         super("Connect 4");
@@ -79,7 +86,7 @@ public class MainBoardScene extends SceneBasic {
         gridPane.add(button, 6, 7);
         button.setOnAction(e -> send());
 
-            errorMessage.setTextFill(Color.RED);
+        errorMessage.setTextFill(Color.RED);
         gamePiece.setFill(Color.RED);
 
     final Circle diskPreview = new Circle(40);
@@ -112,7 +119,7 @@ public class MainBoardScene extends SceneBasic {
             }
 
         }
-           // dropPiece(1);  
+           run(); 
             }
              
       
@@ -153,31 +160,35 @@ public class MainBoardScene extends SceneBasic {
          
         } 
       }
+      
+      private void run(){
+         try {
+            connection = SceneManager.getSocket(); // Server socket
+            incoming = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            outgoing = new PrintWriter( connection.getOutputStream() );
+         }
+         catch (Exception e) {
+            System.out.println("Sorry, the server has shut down.");
+            System.out.println("Error:  " + e);
+            return;
+        }
+      }
     
     public void myTurn(){
       //method to ask server if its my turn yet
       //maybe literally take the button away or remove its functionality if its not my turn
       // set server response to turn boolean
     }
+     public void getColor(){
+      //method to ask server if its my turn yet
+      //maybe literally take the button away or remove its functionality if its not my turn
+      // set server response to turn boolean
+    }
      public void send(){
       
-      //TO DO:
-      //clean this up and make the buffered reader and print writer part of params
-         try {
-			if (connection == null) { // If no socket has been created...
-				connection = new Socket(hostName, LISTENING_PORT);
-				SceneManager.setSocket(connection); // Client socket
-			}
-		}
-	    catch (Exception e) {
-	        System.out.println("Error:  " + e);
-	    }
         try {
            
-            Socket connection = SceneManager.getSocket(); // Server socket
-			//Socket connection = SceneManager.getSocket(); // Server socket
-	    	PrintWriter outgoing;   // Stream for sending data.
-			outgoing = new PrintWriter( connection.getOutputStream() );
+           
 			
 			String move = columnField.getText();
 			outgoing.println(move);
@@ -185,12 +196,12 @@ public class MainBoardScene extends SceneBasic {
             System.out.println("Sent move"); // For debugging
 //            outgoing.close();
 
-            BufferedReader incoming = new BufferedReader( 
-                    new InputStreamReader(connection.getInputStream()) );
+            //BufferedReader incoming = new BufferedReader( 
+            //        new InputStreamReader(connection.getInputStream()) );
             System.out.println("Waiting for result...");
             String reply = incoming.readLine();
 
-System.out.println(reply);
+            System.out.println(reply);
             if (reply.equals("SUCCESS")) {
             	errorMessage.setText("");
             	dropPiece(Integer.parseInt(move));
