@@ -36,10 +36,9 @@ public class StartScene extends SceneBasic {
     private Button startButton = new Button("Start");
     private Button settingsButton = new Button("Settings");
     private Label errorMessage = new Label();
-   // private StackPane stack = new StackPane();
     private GridPane gridPane = new GridPane();
-   private String hostName = "127.0.0.1";
-	private int LISTENING_PORT = 32007;
+    private String hostName = "127.0.0.1";
+	 private int LISTENING_PORT = 32007;
     private Socket connection;
      
     public StartScene() {
@@ -65,12 +64,6 @@ public class StartScene extends SceneBasic {
         settingsButton.setOnAction(e -> SceneManager.setSettingsScene());
     }
      
-
-    //private void createBoard(final GridPane gridPane){
-    //    
-    //    
-    //    
-    //}
     
   // Main login connects to socket, sends signal and login info, and expects an account type as a String
 	private void startGame() {

@@ -5,7 +5,6 @@ import java.util.*;
 
 public class StoreThread extends Thread {
     private Socket client;      // For communication with the connecting program.
-   
     private BufferedReader incoming;
     private PrintWriter outgoing;   // Stream for sending data.
 

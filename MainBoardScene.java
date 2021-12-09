@@ -28,10 +28,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 public class MainBoardScene extends SceneBasic {
-//need to extend scene basic
-//possibly make this look like store
-//have a constructor so that scene manager can call this 
-    
+   
     private int row = 5;
     private int column = 6;
     private final int FONT_SIZE = 20;
@@ -43,20 +40,17 @@ public class MainBoardScene extends SceneBasic {
     private StackPane stack = new StackPane();
     private GridPane gridPane = new GridPane();
     private  boolean[][] piece = new boolean[6][7];; // 2D boolean array
-    private boolean turn;
     private Label userLabel2;
-   private String hostName = "127.0.0.1";
-	private int LISTENING_PORT = 32007;
+    private String hostName = "127.0.0.1";
+	 private int LISTENING_PORT = 32007;
     private Socket connection;
-   private Color myColor = Color.RED;
+    private Color myColor = Color.RED;
     private Color oppColor = Color.YELLOW;
      
     public MainBoardScene(){
         
         super("Connect 4");
-        //GridPane gridPane = new GridPane();
         gridPane.setMinSize(400, 200); 
-        
         HBox buttonBox = new HBox();
         buttonBox.getChildren().addAll(button, quitButton);
         gridPane.add(buttonBox, 1, 2);
@@ -64,27 +58,16 @@ public class MainBoardScene extends SceneBasic {
         gridPane.add(errorMessage, 1, 7);
         gridPane.setAlignment(Pos.TOP_CENTER);
         root.getChildren().addAll(gridPane);
-        final BorderPane root = new BorderPane();
-//        
-//      
-//        
-        gridPane.setAlignment(Pos.CENTER);
-//         
-//        
-        final Circle gamePiece = new Circle(40);
-//       
+        final BorderPane root = new BorderPane();    
+        gridPane.setAlignment(Pos.CENTER);  
         gridPane.add(columnNum, 6, 5);
         gridPane.add(columnField, 6, 6);
         gridPane.add(button, 6, 7);
         gridPane.add(quitButton, 7, 8);
         button.setOnAction(e -> send());
-        quitButton.setOnAction(e -> SceneManager.setStartScene());
-
-            errorMessage.setTextFill(Color.RED);
-        gamePiece.setFill(Color.RED);
-
-    final Circle diskPreview = new Circle(40);
-        diskPreview.setFill(Color.RED);
+        quitButton.setOnAction(e -> quit());
+        errorMessage.setTextFill(Color.RED);
+        
         for(int r = 0;r < row; r++){
             for(int c = 0; c < column; c++){
                
@@ -147,16 +130,24 @@ public class MainBoardScene extends SceneBasic {
          
         } 
       }
-      public void getColor(){
+      
+      public void quit(){
        try {
-			if (connection == null) { // If no socket has been created...
-				connection = new Socket(hostName, LISTENING_PORT);
-				SceneManager.setSocket(connection); // Client socket
+			
+           PrintWriter outgoing = new PrintWriter( SceneManager.getSocket().getOutputStream() );
+            System.out.println("Sending Quit");
+            outgoing.println("QUIT");
+            outgoing.flush();
+            SceneManager.setStartScene();
 			}
-		}
+		
 	    catch (Exception e) {
 	        System.out.println("Error:  " + e);
 	    }
+      }
+      
+      public void getColor(){
+       
         try {
            
             Socket connection = SceneManager.getSocket(); // Server socket
@@ -214,28 +205,14 @@ public class MainBoardScene extends SceneBasic {
     
       }
     
-    public void myTurn(){
-      //method to ask server if its my turn yet
-      //maybe literally take the button away or remove its functionality if its not my turn
-      // set server response to turn boolean
-    }
+    
      public void send(){
       getColor();
-      //TO DO:
-      //clean this up and make the buffered reader and print writer part of params
-         try {
-			if (connection == null) { // If no socket has been created...
-				connection = new Socket(hostName, LISTENING_PORT);
-				SceneManager.setSocket(connection); // Client socket
-			}
-		}
-	    catch (Exception e) {
-	        System.out.println("Error:  " + e);
-	    }
+      
         try {
            
             Socket connection = SceneManager.getSocket(); // Server socket
-			//Socket connection = SceneManager.getSocket(); // Server socket
+			
 	    	PrintWriter outgoing;   // Stream for sending data.
 			outgoing = new PrintWriter( connection.getOutputStream() );
 			
@@ -243,18 +220,18 @@ public class MainBoardScene extends SceneBasic {
 			outgoing.println(move);
 			outgoing.flush();  // Make sure the data is actually sent!
             System.out.println("Sent move"); // For debugging
-//            outgoing.close();
+
 
             BufferedReader incoming = new BufferedReader( 
                     new InputStreamReader(connection.getInputStream()) );
             System.out.println("Waiting for result...");
             String reply = incoming.readLine();
 
-System.out.println(reply);
+            System.out.println(reply);
             if (reply.equals("SUCCESS")) {
             	errorMessage.setText("");
             	dropPiece(Integer.parseInt(move));
-              opponentTurn((int)(Math.random() * 6) +1);
+              opponentTurn((int)(Math.random() * 6) +1); //randomize move to simulate server (other player)
             }
             else if (reply.equals("FAIL")) {
             	errorMessage.setText("Please choose another move");
