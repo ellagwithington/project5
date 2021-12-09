@@ -1,12 +1,13 @@
+/**
+ *Program by Ella Withington
+ * Manages changes from one scene to another scene.
+ */
 
-// Author: Chris Fietkiewicz. For Project #3.
-// Description: Manages changes from one scene to another scene.
 import java.net.Socket;
 import java.util.ArrayList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
-
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -22,15 +23,10 @@ import java.io.*;
 public class SceneManager {
     private static Socket connection; // Socket connection to server
 	private static Stage stage; // Stage used for all scenes
-	
-
     private static SettingsScene settingsScene; // Allows user to change Socket host and port number
 	private static MainBoardScene mainBoardScene; // Allows user to play the game
 	private static StartScene startScene;
-//	
-//	
-//	
-//
+	
 // Constructor
 	public SceneManager() {
 		mainBoardScene = new MainBoardScene(); 

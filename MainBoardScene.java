@@ -27,6 +27,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
+
 public class MainBoardScene extends SceneBasic {
    
     private int row = 5;

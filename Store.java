@@ -1,4 +1,4 @@
-// Author: Chris Fietkiewicz. See description in P4 instructions. 
+// Author: Chris Fietkiewicz adapted by Ella Withington
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -9,16 +9,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
-
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 
 public class Store extends Application {
 	private SceneManager sceneManager;
-		private Socket connection;
-//	private String hostName = "localhost";
-	
+	private Socket connection;
 
     public void start(Stage stage) {
 		

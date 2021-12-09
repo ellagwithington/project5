@@ -28,10 +28,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 public class StartScene extends SceneBasic {
-//need to extend scene basic
-//possibly make this look like store
-//have a constructor so that scene manager can call this 
-    
+
   
     private Button startButton = new Button("Start");
     private Button settingsButton = new Button("Settings");
