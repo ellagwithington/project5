@@ -10,6 +10,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.util.Arrays;
 
 public class SettingsScene {
     private Scene scene;
@@ -89,6 +90,12 @@ public class SettingsScene {
             color1 = new TextField("");
             color2 = new TextField("");
         }
+
+        // Set settings data in SceneManager
+        SceneManager.setSettings(new String[]{color1.getText(), color2.getText()});
+
+        String[] testSettings = SceneManager.getSettings(); // DEBUGGING
+        System.out.println(Arrays.toString(testSettings)); // DEBUGGING
     }
 
     private void writeSettingsFile() {
@@ -107,6 +114,12 @@ public class SettingsScene {
             file.flush();
             file.close();
 
+            // Set settings data in SceneManager
+            SceneManager.setSettings(new String[]{color1.getText(), color2.getText()});
+
+            String[] testSettings = SceneManager.getSettings(); // DEBUGGING
+            System.out.println(Arrays.toString(testSettings)); // DEBUGGING
+
             // Set startScene
             SceneManager.setStartScene();
         } catch (Exception e) {
@@ -114,3 +127,4 @@ public class SettingsScene {
         }
     }
 }
+
